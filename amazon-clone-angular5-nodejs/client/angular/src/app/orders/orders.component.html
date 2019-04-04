@@ -1,0 +1,62 @@
+<section id="myOrders">
+  <div class="container p-5">
+    <app-message></app-message>
+    <div *ngIf="!orders" class="m-auto">
+      <h1 class="text-center display-3 mt-5">
+        <i class="fa fa-spinner fa-spin"></i>
+      </h1>
+    </div>
+    <h3 *ngIf="orders && !orders.length" class="display-2 text-center mt-5">My Orders is Empty</h3>
+    <div *ngIf="orders && orders.length" class="row">
+      <div class="col">
+        <h4 class="display-4">My Orders</h4>
+        <hr class="mt-0">
+        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+          <ngb-panel *ngFor="let order of orders" class="order">
+            <ng-template ngbPanelTitle>
+              <div class="row">
+                <div class="col-5 col-md-10">
+                  <h6>
+                    <a routerLink="/order/{{ order._id }}">{{ order._id }}</a>
+                  </h6>
+                </div>
+                <div class="col-2">
+                  <h6 class="font-weight-bold text-danger">{{ order.totalPrice/100 | currency }}</h6>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div *ngFor="let item of order.products" class="product">
+                <div class="row">
+                  <div class="col-4 col-md-2">
+                    <a routerLink="/product/{{ item.product._id }}">
+                      <img src="{{ item.product.image }}" alt="productImage" class="img-fluid img-thumbnail">
+                    </a>
+                  </div>
+                  <div class="col-5 col-md-6">
+                    <h6>
+                      <a routerLink="/product/{{ item.product._id }}">{{ item.product.title }}</a>
+                    </h6>
+                    <!-- <p class="m-0">
+                      <small class="text-muted">{{ item.product.owner.name }}</small>
+                    </p>
+                    <p class="m-0">
+                      <small class="text-muted">{{ item.product.category.name }}</small>
+                    </p> -->
+                  </div>
+                  <div class="col-1 col-md-2">
+                    <small class="text-muted">{{ item.quantity }}</small>
+                  </div>
+                  <div class="col-1 col-md-2">
+                    <h6 class="font-weight-bold text-danger">{{ item.product.price | currency }}</h6>
+                  </div>
+                </div>
+                <hr>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </div>
+  </div>
+</section>
